@@ -43,13 +43,12 @@ fclean:
 	@sudo rm -rf /home/fracurul/data/wordpress/*
 	@sudo rm -rf /home/fracurul/data/*
 	@sudo rm -rf /home/fracurul/data
-	@docker stop $$(docker ps -qa)
+	@if [ -n "$$(docker ps -qa)" ]; then docker stop $$(docker ps -qa); fi
 	@docker system prune --all --force --volumes
-	#@docker rm $$(docker ps -a -q) --force
 	@docker network prune --force
 	@docker volume prune --force
-	@docker volume rm $$(docker volume ls -q)
-	@rm /home/fracurul/.env
+	@if [ -n "$$(docker volume ls -q)" ]; then docker volume rm $$(docker volume ls -q); fi
+	@rm -f /home/fracurul/.env
 
 re: fclean all
 
